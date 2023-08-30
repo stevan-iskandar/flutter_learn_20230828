@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn_20230828/src/constants/now_ui_colors.dart';
-import 'package:flutter_learn_20230828/src/screens/categories_screen.dart';
+import 'package:flutter_learn_20230828/src/screens/tabs_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MyApp extends StatelessWidget {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: theme(brightness: Brightness.light),
       darkTheme: theme(brightness: Brightness.dark),
-      home: const CategoriesScreen(),
+      home: const TabsScreen(),
     );
   }
 }
