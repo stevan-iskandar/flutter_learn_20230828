@@ -13,12 +13,14 @@ class MealDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    TextStyle styleTitleLarge =
+    final isfavorite = ref.watch(favoriteMealsProfider).contains(meal);
+
+    final TextStyle styleTitleLarge =
         Theme.of(context).textTheme.titleLarge!.copyWith(
               color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.bold,
             );
-    TextStyle styleBodyMedium =
+    final TextStyle styleBodyMedium =
         Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: Theme.of(context).colorScheme.onBackground,
             );
@@ -43,20 +45,38 @@ class MealDetailScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: ref.watch(favoriteMealsProfider).contains(meal)
-                ? const Icon(Icons.star)
-                : const Icon(Icons.star_border),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: Icon(
+                isfavorite ? Icons.star : Icons.star_border,
+                key: ValueKey(isfavorite),
+              ),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: Tween<double>(begin: 0.7, end: 1).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeInOut,
+                    ),
+                  ),
+                  child: child,
+                );
+              },
+            ),
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(
-              meal.imageUrl,
-              fit: BoxFit.cover,
-              height: 300,
-              width: double.infinity,
+            Hero(
+              tag: meal.id,
+              child: Image.network(
+                meal.imageUrl,
+                fit: BoxFit.cover,
+                height: 300,
+                width: double.infinity,
+              ),
             ),
             const SizedBox(height: 14),
             Text(
